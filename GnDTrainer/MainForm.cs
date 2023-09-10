@@ -1,6 +1,5 @@
 using Memory;
 using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace GnDTrainer
 {
@@ -20,7 +19,6 @@ namespace GnDTrainer
         {
 
             Process[] processes = Process.GetProcessesByName("Ghosts'nDemons");
-
             if (processes != null && processes.Length > 0)
             {
                 // The game runs on the child process
@@ -29,17 +27,27 @@ namespace GnDTrainer
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("else statement");
                 ProcOpen = false;
                 Thread.Sleep(1000);
                 return;
             }
+
+            chestArmorCheck();
 
             //int score = m.ReadInt("base+000E24A0,-2");
             //System.Diagnostics.Debug.WriteLine("The score is: " + score);
 
             Thread.Sleep(1000);
             BGWorker.ReportProgress(0);
+        }
+
+        private void chestArmorCheck()
+        {
+            if (armorCheckBox.Checked)
+            {
+                // Chests give a guaranteed armor after 5 unopened chests.
+                m.WriteMemory("base+0037E418,F4,00", "int", "6");
+            }
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -66,7 +74,6 @@ namespace GnDTrainer
         {
             int desiredLivesInt = (int)livesUpDown.Value;
             string desiredLivesHex = desiredLivesInt.ToString("X");
-            System.Diagnostics.Debug.WriteLine("The desiredLives is: " + desiredLivesHex);
             m.WriteMemory("base+000E24A0,2", "byte", desiredLivesHex);
         }
     }

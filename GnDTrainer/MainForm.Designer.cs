@@ -36,6 +36,7 @@ namespace GnDTrainer
             ProcOpenLabel = new Label();
             label2 = new Label();
             livesUpDown = new NumericUpDown();
+            armorCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)livesUpDown).BeginInit();
             SuspendLayout();
             // 
@@ -84,11 +85,22 @@ namespace GnDTrainer
             livesUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
             livesUpDown.ValueChanged += livesUpDown_ValueChanged;
             // 
+            // armorCheckBox
+            // 
+            armorCheckBox.AutoSize = true;
+            armorCheckBox.Location = new Point(19, 106);
+            armorCheckBox.Name = "armorCheckBox";
+            armorCheckBox.Size = new Size(147, 19);
+            armorCheckBox.TabIndex = 6;
+            armorCheckBox.Text = "Always armor in chests";
+            armorCheckBox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(armorCheckBox);
             Controls.Add(livesUpDown);
             Controls.Add(label2);
             Controls.Add(ProcOpenLabel);
@@ -109,5 +121,6 @@ namespace GnDTrainer
         private Label ProcOpenLabel;
         private Label label2;
         private NumericUpDown livesUpDown;
+        private CheckBox armorCheckBox;
     }
 }
