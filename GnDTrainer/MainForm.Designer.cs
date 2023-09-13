@@ -37,7 +37,11 @@ namespace GnDTrainer
             label2 = new Label();
             livesUpDown = new NumericUpDown();
             armorCheckBox = new CheckBox();
+            preWeapon = new Button();
+            nextWeapon = new Button();
+            weaponPictureBox = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)livesUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)weaponPictureBox).BeginInit();
             SuspendLayout();
             // 
             // BGWorker
@@ -49,6 +53,7 @@ namespace GnDTrainer
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(12, 18);
             label1.Name = "label1";
             label1.Size = new Size(50, 15);
@@ -68,7 +73,8 @@ namespace GnDTrainer
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(19, 68);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(12, 68);
             label2.Name = "label2";
             label2.Size = new Size(36, 15);
             label2.TabIndex = 4;
@@ -88,18 +94,53 @@ namespace GnDTrainer
             // armorCheckBox
             // 
             armorCheckBox.AutoSize = true;
-            armorCheckBox.Location = new Point(19, 106);
+            armorCheckBox.ForeColor = Color.White;
+            armorCheckBox.Location = new Point(12, 106);
             armorCheckBox.Name = "armorCheckBox";
             armorCheckBox.Size = new Size(147, 19);
             armorCheckBox.TabIndex = 6;
             armorCheckBox.Text = "Always armor in chests";
             armorCheckBox.UseVisualStyleBackColor = true;
             // 
+            // preWeapon
+            // 
+            preWeapon.Location = new Point(461, 12);
+            preWeapon.Name = "preWeapon";
+            preWeapon.Size = new Size(62, 40);
+            preWeapon.TabIndex = 7;
+            preWeapon.Text = "Previous weapon";
+            preWeapon.UseVisualStyleBackColor = true;
+            preWeapon.Click += preWeapon_Click;
+            // 
+            // nextWeapon
+            // 
+            nextWeapon.Location = new Point(523, 12);
+            nextWeapon.Name = "nextWeapon";
+            nextWeapon.Size = new Size(61, 40);
+            nextWeapon.TabIndex = 8;
+            nextWeapon.Text = "Next weapon";
+            nextWeapon.UseVisualStyleBackColor = true;
+            nextWeapon.Click += nextWeapon_Click;
+            // 
+            // weaponPictureBox
+            // 
+            weaponPictureBox.Enabled = false;
+            weaponPictureBox.Image = Properties.Resources.Torch;
+            weaponPictureBox.Location = new Point(461, 52);
+            weaponPictureBox.Name = "weaponPictureBox";
+            weaponPictureBox.Size = new Size(123, 107);
+            weaponPictureBox.TabIndex = 9;
+            weaponPictureBox.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.Black;
+            ClientSize = new Size(596, 450);
+            Controls.Add(weaponPictureBox);
+            Controls.Add(nextWeapon);
+            Controls.Add(preWeapon);
             Controls.Add(armorCheckBox);
             Controls.Add(livesUpDown);
             Controls.Add(label2);
@@ -110,6 +151,7 @@ namespace GnDTrainer
             Text = "Omega's GnD Trainer v0.0.1 x86";
             Shown += MainForm_Shown;
             ((System.ComponentModel.ISupportInitialize)livesUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)weaponPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -122,5 +164,8 @@ namespace GnDTrainer
         private Label label2;
         private NumericUpDown livesUpDown;
         private CheckBox armorCheckBox;
+        private Button preWeapon;
+        private Button nextWeapon;
+        private PictureBox weaponPictureBox;
     }
 }
