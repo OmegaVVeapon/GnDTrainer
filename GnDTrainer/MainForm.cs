@@ -1,14 +1,17 @@
 using GnDTrainer.Properties;
 using Memory;
 using System.Diagnostics;
+// Allows us to call Windows functions like VirtualFreeEx cleanly (https://www.nuget.org/packages/Microsoft.Windows.CsWin32)
+
+
 
 namespace GnDTrainer
 {
+
     public partial class MainForm : Form
     {
         public Mem m = new();
-
-        Dictionary<int, Bitmap> weapons = new Dictionary<int, Bitmap>();
+        private readonly Dictionary<int, Bitmap> weapons = new();
 
         public MainForm()
         {
@@ -31,6 +34,26 @@ namespace GnDTrainer
         bool ProcOpen = false;
         int processId;
         int currentWeapon;
+        int currentLevel;
+        string levelaobscanadress = string.Empty;
+        IntPtr procBaseAddress = IntPtr.Zero;
+        long minAdressRange = 0;
+        long maxAdressRange = 0;
+        UIntPtr codecavebase;
+
+        [Flags]
+        public enum AllocationType
+        {
+            Commit = 0x1000,
+            Reserve = 0x2000,
+            Decommit = 0x4000,
+            Release = 0x8000,
+            Reset = 0x80000,
+            Physical = 0x400000,
+            TopDown = 0x100000,
+            WriteWatch = 0x200000,
+            LargePages = 0x20000000
+        }
 
         private void BGWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -40,6 +63,11 @@ namespace GnDTrainer
             {
                 // The game runs on the child process
                 processId = processes.Last().Id;
+                procBaseAddress = Process.GetProcessById(processId).MainModule.BaseAddress;
+                minAdressRange = (long)Process.GetProcessById(processId).MainModule.BaseAddress;
+                maxAdressRange = minAdressRange + (long)Process.GetProcessById(processId).MainModule.ModuleMemorySize;
+
+
                 ProcOpen = m.OpenProcess(processId);
             }
             else
@@ -56,7 +84,7 @@ namespace GnDTrainer
             BGWorker.ReportProgress(0);
         }
 
-        private void toggleElements(bool state)
+        private void ToggleElements(bool state)
         {
             armorCheckBox.AutoCheck = state;
 
@@ -66,7 +94,7 @@ namespace GnDTrainer
             nextWeapon.Enabled = state;
         }
 
-        private void chestArmorCheck()
+        private void ChestArmorCheck()
         {
             if (armorCheckBox.Checked)
             {
@@ -75,12 +103,18 @@ namespace GnDTrainer
             }
         }
 
-        private int getCurrentWeapon()
+        private int GetCurrentWeapon()
         {
             currentWeapon = m.ReadByte("base+0037E418,80,0");
             weaponPictureBox.Image = weapons[currentWeapon];
             return currentWeapon;
+        }
 
+        private int GetCurrentLevel()
+        {
+            currentLevel = m.ReadByte("base+37E67C");
+            System.Diagnostics.Debug.WriteLine("The current level is: " + currentLevel);
+            return currentLevel;
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -94,23 +128,25 @@ namespace GnDTrainer
             {
                 ProcOpenLabel.Text = processId.ToString();
                 ProcOpenLabel.ForeColor = System.Drawing.Color.White;
-                toggleElements(true);
+                ToggleElements(true);
 
-                chestArmorCheck();
+                ChestArmorCheck();
 
                 // Keep this updated to reflect the player's in-game weapon on the trainer
-                getCurrentWeapon();
+                GetCurrentWeapon();
+
+                GetCurrentLevel();
             }
             else
             {
                 ProcOpenLabel.Text = "No game found!";
                 ProcOpenLabel.ForeColor = System.Drawing.Color.Red;
-                toggleElements(false);
+                ToggleElements(false);
             }
             BGWorker.RunWorkerAsync();
         }
 
-        private void livesUpDown_ValueChanged(object sender, EventArgs e)
+        private void LivesUpDown_ValueChanged(object sender, EventArgs e)
         {
             int desiredLivesInt = (int)livesUpDown.Value;
             string desiredLivesHex = desiredLivesInt.ToString("X");
@@ -118,9 +154,9 @@ namespace GnDTrainer
         }
 
 
-        private void preWeapon_Click(object sender, EventArgs e)
+        private void PreWeapon_Click(object sender, EventArgs e)
         {
-            getCurrentWeapon();
+            GetCurrentWeapon();
 
             if (currentWeapon == 0)
             {
@@ -135,9 +171,9 @@ namespace GnDTrainer
 
         }
 
-        private void nextWeapon_Click(object sender, EventArgs e)
+        private void NextWeapon_Click(object sender, EventArgs e)
         {
-            getCurrentWeapon();
+            GetCurrentWeapon();
 
             if (currentWeapon == 9)
             {
@@ -151,5 +187,61 @@ namespace GnDTrainer
             }
         }
 
+        public async void SetLevel(bool enable)
+        {
+            if (enable)
+            {
+                // AoB scan and store it in AoBScanResults. We specify our start and end address regions to decrease scan time.
+                IEnumerable<long> AoBScanResults = await m.AoBScan(minAdressRange, maxAdressRange, "89 35 7C E6 77 00", false, true);
+
+                levelaobscanadress = AoBScanResults.FirstOrDefault().ToString("X");
+
+                System.Diagnostics.Debug.WriteLine("Our First Found Address is " + levelaobscanadress);
+
+                System.Diagnostics.Debug.WriteLine("The base address is " + procBaseAddress.ToString("X"));
+
+
+
+                byte[] levelLoadCode = {
+                    //0x83, 0xFE, 0x35, // cmp esi, 0x35
+                    //0x0F, 0x8D, 0x05, 0x00, 0x00, 0x00,  // jnl 00B0000E (This jmp will change each time...)
+                    0xBE, 0x35, 0x00, 0x00, 0x00, // mov esi,00000035
+                    0x53, // push ebx
+                    0xBB, 0x00, 0x00, 0x40, 0x00, // mov ebx,Ghosts'nDemons.exe (Use procBaseAddress in Hex here instead...)
+                    0x89, 0xB3, 0x7C, 0xE6, 0x37, 0x00, // mov [ebx+0037E67C],esi
+                    0x5B // pop ebx        
+                };
+
+                codecavebase = m.CreateCodeCave(levelaobscanadress, levelLoadCode, 6, 4096);
+
+                UIntPtr codecaveAllocAddress = UIntPtr.Add(codecavebase, levelLoadCode.Length);
+
+                int newint = (int)codecaveAllocAddress - 6;
+
+                System.Diagnostics.Debug.WriteLine("Code Cave Base: 0x" + codecavebase.ToString("X"));
+
+                System.Diagnostics.Debug.WriteLine("Read Allocated Memory: 0x" + newint.ToString("X") + "\r\n" + codecaveAllocAddress);
+
+            }
+            else
+            {
+                m.WriteMemory(levelaobscanadress, "bytes", "0x89,0x35,0x7C,0xE6,0x77,0x00");
+
+                Imps.VirtualFreeEx(m.mProc.Handle, codecavebase, (UIntPtr)0uL, 32768u);
+            }
+
+        }
+
+        private void SecondLoopCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (secondLoopCheckbox.Checked)
+            {
+                SetLevel(true);
+            }
+            //else
+            //{
+            //    setLevel(false);
+            //}
+        }
     }
 }

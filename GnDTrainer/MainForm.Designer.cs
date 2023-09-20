@@ -40,8 +40,11 @@ namespace GnDTrainer
             preWeapon = new Button();
             nextWeapon = new Button();
             weaponPictureBox = new PictureBox();
+            secondLoopCheckbox = new CheckBox();
+            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)livesUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)weaponPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // BGWorker
@@ -89,7 +92,7 @@ namespace GnDTrainer
             livesUpDown.Size = new Size(64, 23);
             livesUpDown.TabIndex = 5;
             livesUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            livesUpDown.ValueChanged += livesUpDown_ValueChanged;
+            livesUpDown.ValueChanged += LivesUpDown_ValueChanged;
             // 
             // armorCheckBox
             // 
@@ -104,23 +107,32 @@ namespace GnDTrainer
             // 
             // preWeapon
             // 
-            preWeapon.Location = new Point(461, 12);
+            preWeapon.BackColor = Color.Black;
+            preWeapon.BackgroundImage = Properties.Resources.left_arrow;
+            preWeapon.BackgroundImageLayout = ImageLayout.Stretch;
+            preWeapon.FlatStyle = FlatStyle.Flat;
+            preWeapon.ForeColor = Color.Black;
+            preWeapon.ImageAlign = ContentAlignment.TopCenter;
+            preWeapon.Location = new Point(461, 5);
+            preWeapon.Margin = new Padding(0);
             preWeapon.Name = "preWeapon";
-            preWeapon.Size = new Size(62, 40);
+            preWeapon.Size = new Size(63, 47);
             preWeapon.TabIndex = 7;
-            preWeapon.Text = "Previous weapon";
-            preWeapon.UseVisualStyleBackColor = true;
-            preWeapon.Click += preWeapon_Click;
+            preWeapon.UseVisualStyleBackColor = false;
+            preWeapon.Click += PreWeapon_Click;
             // 
             // nextWeapon
             // 
-            nextWeapon.Location = new Point(523, 12);
+            nextWeapon.BackColor = Color.Black;
+            nextWeapon.BackgroundImage = Properties.Resources.right_arrow;
+            nextWeapon.BackgroundImageLayout = ImageLayout.Stretch;
+            nextWeapon.FlatStyle = FlatStyle.Flat;
+            nextWeapon.Location = new Point(518, 5);
             nextWeapon.Name = "nextWeapon";
-            nextWeapon.Size = new Size(61, 40);
+            nextWeapon.Size = new Size(66, 47);
             nextWeapon.TabIndex = 8;
-            nextWeapon.Text = "Next weapon";
-            nextWeapon.UseVisualStyleBackColor = true;
-            nextWeapon.Click += nextWeapon_Click;
+            nextWeapon.UseVisualStyleBackColor = false;
+            nextWeapon.Click += NextWeapon_Click;
             // 
             // weaponPictureBox
             // 
@@ -132,12 +144,37 @@ namespace GnDTrainer
             weaponPictureBox.TabIndex = 9;
             weaponPictureBox.TabStop = false;
             // 
+            // secondLoopCheckbox
+            // 
+            secondLoopCheckbox.AutoSize = true;
+            secondLoopCheckbox.ForeColor = Color.White;
+            secondLoopCheckbox.Location = new Point(12, 140);
+            secondLoopCheckbox.Name = "secondLoopCheckbox";
+            secondLoopCheckbox.Size = new Size(92, 19);
+            secondLoopCheckbox.TabIndex = 10;
+            secondLoopCheckbox.Text = "Second loop";
+            secondLoopCheckbox.UseVisualStyleBackColor = true;
+            secondLoopCheckbox.CheckedChanged += SecondLoopCheckbox_CheckedChanged;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.InitialImage = null;
+            pictureBox1.Location = new Point(347, 228);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(237, 152);
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox1.TabIndex = 11;
+            pictureBox1.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(596, 450);
+            Controls.Add(pictureBox1);
+            Controls.Add(secondLoopCheckbox);
             Controls.Add(weaponPictureBox);
             Controls.Add(nextWeapon);
             Controls.Add(preWeapon);
@@ -152,6 +189,7 @@ namespace GnDTrainer
             Shown += MainForm_Shown;
             ((System.ComponentModel.ISupportInitialize)livesUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)weaponPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -167,5 +205,7 @@ namespace GnDTrainer
         private Button preWeapon;
         private Button nextWeapon;
         private PictureBox weaponPictureBox;
+        private CheckBox secondLoopCheckbox;
+        private PictureBox pictureBox1;
     }
 }
