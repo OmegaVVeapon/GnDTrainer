@@ -127,8 +127,8 @@
   <data name="Shield" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Shield.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Axe.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Torch.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Fireball" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fireball.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,11 +148,64 @@
   <data name="Cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cross.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Torch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Torch.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Axe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Axe.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Scythe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Scythe.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-
+  <data name="2nd Loop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2nd Loop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Bad Ending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Bad Ending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Credits" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Credits.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Good Ending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Good Ending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 2 Castle Boss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 2 Castle Boss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 3 Fire 1st stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 3 Fire 1st stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 3 Fire 2nd stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 3 Fire 2nd stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 3 Lava Boss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 3 Lava Boss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 3 Water 1st stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 3 Water 1st stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 3 Water 2nd stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 3 Water 2nd stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 5 1st stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 5 1st stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 5 2nd stage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 5 2nd stage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Level 5 Azazel Boss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Level 5 Azazel Boss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="True Final Boss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\True Final Boss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Weak Ending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Weak Ending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

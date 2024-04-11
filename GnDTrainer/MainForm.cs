@@ -1,6 +1,7 @@
 using GnDTrainer.Properties;
 using Memory;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 // Allows us to call Windows functions like VirtualFreeEx cleanly (https://www.nuget.org/packages/Microsoft.Windows.CsWin32)
 
 
@@ -12,6 +13,7 @@ namespace GnDTrainer
     {
         public Mem m = new();
         private readonly Dictionary<int, Bitmap> weapons = new();
+        private readonly Dictionary<int, (string levelName, Bitmap levelImage, byte levelHex)> levels = new();
 
         public MainForm()
         {
@@ -29,12 +31,32 @@ namespace GnDTrainer
             weapons.Add(8, Resources.Shield);
             weapons.Add(9, Resources.Fireball);
 
+            // Initialize the images in the correct display order
+            levels.Add(0, ("Second loop", Resources._2nd_Loop, 0x35));
+            levels.Add(1, ("Level One", Resources.Level_1, 0x04));
+            levels.Add(2, ("Level Two", Resources.Level_2, 0x07));
+            levels.Add(3, ("Castle Boss", Resources.Level_2_Castle_Boss, 0x0A));
+            levels.Add(4, ("Level Three - Water - 1st Stage", Resources.Level_3_Water_1st_stage, 0x0D));
+            levels.Add(5, ("Level Three - Water - 2nd Stage", Resources.Level_3_Water_2nd_stage, 0x10));
+            levels.Add(6, ("Level Three - Fire - 1st Stage", Resources.Level_3_Fire_1st_stage, 0x13));
+            levels.Add(7, ("Level Three - Fire - Boss Fight", Resources.Level_3_Lava_Boss, 0x19));
+            levels.Add(8, ("Level Four", Resources.Level_4, 0x1C));
+            levels.Add(9, ("Level Five - 1st Stage", Resources.Level_5_1st_stage, 0x1F));
+            levels.Add(10, ("Level Five - 2nd Stage", Resources.Level_5_2nd_stage, 0x24));
+            levels.Add(11, ("Azazel Boss", Resources.Level_5_Azazel_Boss, 0x27));
+            levels.Add(12, ("True Final Boss", Resources.True_Final_Boss, 0x29));
+            levels.Add(13, ("Credits", Resources.Credits, 0x2D));
+            levels.Add(14, ("Weak Ending", Resources.Weak_Ending, 0x31));
+            levels.Add(15, ("Good Ending", Resources.Good_Ending, 0x2E));
+
         }
 
         bool ProcOpen = false;
         int processId;
         int currentWeapon;
-        int currentLevel;
+
+        int selectedLevel = 0;
+
         string levelaobscanadress = string.Empty;
         IntPtr procBaseAddress = IntPtr.Zero;
         long minAdressRange = 0;
@@ -110,11 +132,18 @@ namespace GnDTrainer
             return currentWeapon;
         }
 
-        private int GetCurrentLevel()
+        private void GetCurrentLevel()
         {
-            currentLevel = m.ReadByte("base+37E67C");
+            int currentLevel = m.ReadInt("base+37E67C");
             System.Diagnostics.Debug.WriteLine("The current level is: " + currentLevel);
-            return currentLevel;
+            System.Diagnostics.Debug.WriteLine("The selected level is: " + levels[selectedLevel].levelHex);
+
+            if (levels[selectedLevel].levelHex == currentLevel)
+            {
+                System.Diagnostics.Debug.WriteLine("Unsetting the code cave");
+                SetLevel(false);
+            }
+
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -135,6 +164,7 @@ namespace GnDTrainer
                 // Keep this updated to reflect the player's in-game weapon on the trainer
                 GetCurrentWeapon();
 
+                // Need to know what level we are at to know when to unset the level selection code cave
                 GetCurrentLevel();
             }
             else
@@ -187,7 +217,7 @@ namespace GnDTrainer
             }
         }
 
-        public async void SetLevel(bool enable)
+        public async void SetLevel(bool enable, byte levelHex = 0xFF)
         {
             if (enable)
             {
@@ -203,9 +233,7 @@ namespace GnDTrainer
 
 
                 byte[] levelLoadCode = {
-                    //0x83, 0xFE, 0x35, // cmp esi, 0x35
-                    //0x0F, 0x8D, 0x05, 0x00, 0x00, 0x00,  // jnl 00B0000E (This jmp will change each time...)
-                    0xBE, 0x35, 0x00, 0x00, 0x00, // mov esi,00000035
+                    0xBE, levelHex, 0x00, 0x00, 0x00, // mov esi,00000035 - This is where the level value is stored
                     0x53, // push ebx
                     0xBB, 0x00, 0x00, 0x40, 0x00, // mov ebx,Ghosts'nDemons.exe (Use procBaseAddress in Hex here instead...)
                     0x89, 0xB3, 0x7C, 0xE6, 0x37, 0x00, // mov [ebx+0037E67C],esi
@@ -232,16 +260,34 @@ namespace GnDTrainer
 
         }
 
-        private void SecondLoopCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void preLevel_Click(object sender, EventArgs e)
         {
-            if (secondLoopCheckbox.Checked)
+            selectedLevel--;
+            if (selectedLevel == -1)
             {
-                SetLevel(true);
+                selectedLevel = levels.Count - 1;
             }
-            //else
-            //{
-            //    setLevel(false);
-            //}
+
+            levelPictureBox.Image = levels[selectedLevel].levelImage;
+            level_label.Text = levels[selectedLevel].levelName;
         }
+
+        private void nextLevel_Click(object sender, EventArgs e)
+        {
+
+            selectedLevel++;
+            if (selectedLevel == levels.Count)
+            {
+                selectedLevel = 0;
+            }
+            levelPictureBox.Image = levels[selectedLevel].levelImage;
+            level_label.Text = levels[selectedLevel].levelName;
+        }
+
+        private void level_button_Click(object sender, EventArgs e)
+        {
+            SetLevel(true, levels[selectedLevel].levelHex);
+        }
+
     }
 }

@@ -40,11 +40,14 @@ namespace GnDTrainer
             preWeapon = new Button();
             nextWeapon = new Button();
             weaponPictureBox = new PictureBox();
-            secondLoopCheckbox = new CheckBox();
-            pictureBox1 = new PictureBox();
+            levelPictureBox = new PictureBox();
+            preLevel = new Button();
+            nextLevel = new Button();
+            level_button = new Button();
+            level_label = new Label();
             ((System.ComponentModel.ISupportInitialize)livesUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)weaponPictureBox).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)levelPictureBox).BeginInit();
             SuspendLayout();
             // 
             // BGWorker
@@ -113,7 +116,7 @@ namespace GnDTrainer
             preWeapon.FlatStyle = FlatStyle.Flat;
             preWeapon.ForeColor = Color.Black;
             preWeapon.ImageAlign = ContentAlignment.TopCenter;
-            preWeapon.Location = new Point(461, 5);
+            preWeapon.Location = new Point(461, 2);
             preWeapon.Margin = new Padding(0);
             preWeapon.Name = "preWeapon";
             preWeapon.Size = new Size(63, 47);
@@ -127,7 +130,7 @@ namespace GnDTrainer
             nextWeapon.BackgroundImage = Properties.Resources.right_arrow;
             nextWeapon.BackgroundImageLayout = ImageLayout.Stretch;
             nextWeapon.FlatStyle = FlatStyle.Flat;
-            nextWeapon.Location = new Point(518, 5);
+            nextWeapon.Location = new Point(518, 2);
             nextWeapon.Name = "nextWeapon";
             nextWeapon.Size = new Size(66, 47);
             nextWeapon.TabIndex = 8;
@@ -144,28 +147,68 @@ namespace GnDTrainer
             weaponPictureBox.TabIndex = 9;
             weaponPictureBox.TabStop = false;
             // 
-            // secondLoopCheckbox
+            // levelPictureBox
             // 
-            secondLoopCheckbox.AutoSize = true;
-            secondLoopCheckbox.ForeColor = Color.White;
-            secondLoopCheckbox.Location = new Point(12, 140);
-            secondLoopCheckbox.Name = "secondLoopCheckbox";
-            secondLoopCheckbox.Size = new Size(92, 19);
-            secondLoopCheckbox.TabIndex = 10;
-            secondLoopCheckbox.Text = "Second loop";
-            secondLoopCheckbox.UseVisualStyleBackColor = true;
-            secondLoopCheckbox.CheckedChanged += SecondLoopCheckbox_CheckedChanged;
+            levelPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            levelPictureBox.BackgroundImageLayout = ImageLayout.Stretch;
+            levelPictureBox.Image = Properties.Resources._2nd_Loop;
+            levelPictureBox.InitialImage = null;
+            levelPictureBox.Location = new Point(143, 248);
+            levelPictureBox.Name = "levelPictureBox";
+            levelPictureBox.Size = new Size(300, 166);
+            levelPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            levelPictureBox.TabIndex = 11;
+            levelPictureBox.TabStop = false;
             // 
-            // pictureBox1
+            // preLevel
             // 
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.InitialImage = null;
-            pictureBox1.Location = new Point(347, 228);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(237, 152);
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox1.TabIndex = 11;
-            pictureBox1.TabStop = false;
+            preLevel.BackColor = Color.Black;
+            preLevel.BackgroundImage = Properties.Resources.left_arrow;
+            preLevel.BackgroundImageLayout = ImageLayout.Stretch;
+            preLevel.FlatStyle = FlatStyle.Flat;
+            preLevel.ForeColor = Color.Black;
+            preLevel.ImageAlign = ContentAlignment.TopCenter;
+            preLevel.Location = new Point(77, 309);
+            preLevel.Margin = new Padding(0);
+            preLevel.Name = "preLevel";
+            preLevel.Size = new Size(63, 47);
+            preLevel.TabIndex = 12;
+            preLevel.UseVisualStyleBackColor = false;
+            preLevel.Click += preLevel_Click;
+            // 
+            // nextLevel
+            // 
+            nextLevel.BackColor = Color.Black;
+            nextLevel.BackgroundImage = Properties.Resources.right_arrow;
+            nextLevel.BackgroundImageLayout = ImageLayout.Stretch;
+            nextLevel.FlatStyle = FlatStyle.Flat;
+            nextLevel.Location = new Point(449, 309);
+            nextLevel.Name = "nextLevel";
+            nextLevel.Size = new Size(66, 47);
+            nextLevel.TabIndex = 13;
+            nextLevel.UseVisualStyleBackColor = false;
+            nextLevel.Click += nextLevel_Click;
+            // 
+            // level_button
+            // 
+            level_button.Location = new Point(259, 219);
+            level_button.Name = "level_button";
+            level_button.Size = new Size(75, 23);
+            level_button.TabIndex = 14;
+            level_button.Text = "SET LEVEL";
+            level_button.UseVisualStyleBackColor = true;
+            level_button.Click += level_button_Click;
+            // 
+            // level_label
+            // 
+            level_label.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            level_label.ForeColor = Color.White;
+            level_label.Location = new Point(72, 417);
+            level_label.Name = "level_label";
+            level_label.Size = new Size(443, 22);
+            level_label.TabIndex = 15;
+            level_label.Text = "Second Loop";
+            level_label.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -173,8 +216,11 @@ namespace GnDTrainer
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(596, 450);
-            Controls.Add(pictureBox1);
-            Controls.Add(secondLoopCheckbox);
+            Controls.Add(level_label);
+            Controls.Add(level_button);
+            Controls.Add(nextLevel);
+            Controls.Add(preLevel);
+            Controls.Add(levelPictureBox);
             Controls.Add(weaponPictureBox);
             Controls.Add(nextWeapon);
             Controls.Add(preWeapon);
@@ -189,7 +235,7 @@ namespace GnDTrainer
             Shown += MainForm_Shown;
             ((System.ComponentModel.ISupportInitialize)livesUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)weaponPictureBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)levelPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -205,7 +251,10 @@ namespace GnDTrainer
         private Button preWeapon;
         private Button nextWeapon;
         private PictureBox weaponPictureBox;
-        private CheckBox secondLoopCheckbox;
-        private PictureBox pictureBox1;
+        private PictureBox levelPictureBox;
+        private Button preLevel;
+        private Button nextLevel;
+        private Button level_button;
+        private Label level_label;
     }
 }
