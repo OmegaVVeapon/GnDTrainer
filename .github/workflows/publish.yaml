@@ -29,4 +29,4 @@ jobs:
         cd GnDTrainer
         dir
         dotnet build --configuration Release --no-restore
-        dotnet publish -c Release GnDTrainer\GnDTrainer.csproj /p:PublishProfile=GnDTrainer\Properties\PublishProfiles\FolderProfile.pubxml -o GnDTrainer
+        dotnet publish -c Release GnDTrainer.csproj /p:PublishProfile=Properties\PublishProfiles\FolderProfile.pubxml -o ../GnDTrainer
