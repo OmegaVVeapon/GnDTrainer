@@ -1,0 +1,32 @@
+name: publish
+
+on:
+  push:
+    # branches: [ master ]
+
+env:
+  DOTNET_VERSION: '8.0.204' # The .NET SDK version to use
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: GnDTrainer/global.json
+
+    - name: Install dependencies
+      run: |
+        dir
+        dotnet restore
+      
+    - name: Build and Publish
+      run: |
+        cd GnDTrainer
+        dir
+        dotnet build --configuration Release --no-restore
+        dotnet publish -c Release GnDTrainer\GnDTrainer.csproj /p:PublishProfile=GnDTrainer\Properties\PublishProfiles\FolderProfile.pubxml -o GnDTrainer
