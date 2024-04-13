@@ -191,11 +191,13 @@ namespace GnDTrainer
             // 
             // level_button
             // 
+            level_button.Enabled = false;
+            level_button.FlatStyle = FlatStyle.Flat;
             level_button.Location = new Point(259, 219);
             level_button.Name = "level_button";
             level_button.Size = new Size(75, 23);
             level_button.TabIndex = 14;
-            level_button.Text = "SET LEVEL";
+            level_button.Text = "Disabled...";
             level_button.UseVisualStyleBackColor = true;
             level_button.Click += level_button_Click;
             // 
@@ -229,6 +231,7 @@ namespace GnDTrainer
             Controls.Add(label2);
             Controls.Add(ProcOpenLabel);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             Text = "Omega's GnD Trainer v0.0.1 x86";

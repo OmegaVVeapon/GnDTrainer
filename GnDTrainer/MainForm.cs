@@ -1,10 +1,6 @@
 using GnDTrainer.Properties;
 using Memory;
 using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
-// Allows us to call Windows functions like VirtualFreeEx cleanly (https://www.nuget.org/packages/Microsoft.Windows.CsWin32)
-
-
 
 namespace GnDTrainer
 {
@@ -114,6 +110,28 @@ namespace GnDTrainer
 
             preWeapon.Enabled = state;
             nextWeapon.Enabled = state;
+
+            nextLevel.Enabled = state;
+            preLevel.Enabled = state;
+            level_button.Enabled = state;
+
+            if (state)
+            {
+                level_button.Text = "Set Level!";
+                level_button.FlatStyle = FlatStyle.Standard;
+                level_button.FlatAppearance.BorderColor = Control.DefaultBackColor;
+                level_button.FlatAppearance.MouseOverBackColor = Control.DefaultBackColor;
+                level_button.FlatAppearance.MouseDownBackColor = Control.DefaultBackColor;
+            }
+            else
+            {
+                level_button.Text = "Disabled...";
+                level_button.FlatStyle = FlatStyle.Flat;
+                level_button.FlatAppearance.BorderColor = BackColor;
+                level_button.FlatAppearance.MouseOverBackColor = BackColor;
+                level_button.FlatAppearance.MouseDownBackColor = BackColor;
+            }
+            
         }
 
         private void ChestArmorCheck()
@@ -226,11 +244,8 @@ namespace GnDTrainer
 
                 levelaobscanadress = AoBScanResults.FirstOrDefault().ToString("X");
 
-                System.Diagnostics.Debug.WriteLine("Our First Found Address is " + levelaobscanadress);
-
-                System.Diagnostics.Debug.WriteLine("The base address is " + procBaseAddress.ToString("X"));
-
-
+                //System.Diagnostics.Debug.WriteLine("Our First Found Address is " + levelaobscanadress)
+                //System.Diagnostics.Debug.WriteLine("The base address is " + procBaseAddress.ToString("X"));
 
                 byte[] levelLoadCode = {
                     0xBE, levelHex, 0x00, 0x00, 0x00, // mov esi,00000035 - This is where the level value is stored
@@ -244,11 +259,12 @@ namespace GnDTrainer
 
                 UIntPtr codecaveAllocAddress = UIntPtr.Add(codecavebase, levelLoadCode.Length);
 
-                int newint = (int)codecaveAllocAddress - 6;
+                // Set the player's armor to nothing (Arthur in trunks) since we need to player to die to load the next level. Makes it faster...
+                m.WriteMemory("base+004BDAC8,54", "int", "5");
 
-                System.Diagnostics.Debug.WriteLine("Code Cave Base: 0x" + codecavebase.ToString("X"));
-
-                System.Diagnostics.Debug.WriteLine("Read Allocated Memory: 0x" + newint.ToString("X") + "\r\n" + codecaveAllocAddress);
+                //int newint = (int)codecaveAllocAddress - 6;
+                //System.Diagnostics.Debug.WriteLine("Code Cave Base: 0x" + codecavebase.ToString("X"))
+                //System.Diagnostics.Debug.WriteLine("Read Allocated Memory: 0x" + newint.ToString("X") + "\r\n" + codecaveAllocAddress);
 
             }
             else
@@ -287,6 +303,9 @@ namespace GnDTrainer
         private void level_button_Click(object sender, EventArgs e)
         {
             SetLevel(true, levels[selectedLevel].levelHex);
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Resources.GnD_sound);
+            player.Play();
         }
 
     }
