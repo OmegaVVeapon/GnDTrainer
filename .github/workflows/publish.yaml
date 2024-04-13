@@ -28,3 +28,10 @@ jobs:
         cd GnDTrainer
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release GnDTrainer.csproj /p:PublishProfile=Properties\\PublishProfiles\\FolderProfile.pubxml -o ../bin/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: GnDTrainer
+        path: bin/GnDTrainer.exe
+        retention-days: 5
