@@ -20,14 +20,11 @@ jobs:
         global-json-file: GnDTrainer/global.json
 
     - name: Install dependencies
-      run: |
-        dir
-        dotnet restore
+      run: dotnet restore
       
     - name: Build and Publish
       run: |
         mkdir bin
         cd GnDTrainer
-        dir
         dotnet build --configuration Release --no-restore
         dotnet publish -c Release GnDTrainer.csproj /p:PublishProfile=Properties\\PublishProfiles\\FolderProfile.pubxml -o ../bin/
